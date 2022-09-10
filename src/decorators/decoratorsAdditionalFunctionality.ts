@@ -1,29 +1,31 @@
-function Binder(target: any, name: string, descreptor: PropertyDescriptor) {
+function Binder(target: any, methodName: string, descriptor: PropertyDescriptor) {
+  /*
+  * Чтобы избежать конфликта, запрещено одновременно указывать значение value и функции get/set.
+  * Либо значение, либо функции для его чтения-записи, одно из двух.
+  * Также запрещено и не имеет смысла указывать writable при наличии get/set-функций.
+  * */
   return {
-    ...descreptor,
-    value() {
-      return descreptor.value.bind(this);
-    }
-  };
+    configurable: descriptor.configurable,
+    enumerable: descriptor.enumerable,
+    get(){
+      // return ()=> console.log('specific functionality') // will return this function
+      return descriptor.value.bind(this) // this belong to object, which defined and not be overwritten
+    },
+  }
 }
 
 class Market {
-  private name: string;
-  location: string;
-
-  constructor(name: string, location: string) {
-    this.name = name;
-    this.location = location;
-  }
+  name= 'test name';
 
   @Binder
-  getName() {
-    return this?.name;
+  showName() {
+   console.log('market name: ', this?.name);
   }
 }
 
-const market = new Market("appStore", "Los-Angeles");
+const market = new Market();
 
-const getMarketName = market.getName;
+const button = document.querySelector('button')!;
+button.addEventListener('click', market.showName)
 
-console.log(getMarketName());
+// console.log(Object.getOwnPropertyDescriptor(market, 'showName')) // check descriptor
