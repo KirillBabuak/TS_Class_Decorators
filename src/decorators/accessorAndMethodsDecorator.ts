@@ -1,13 +1,13 @@
 function AccessorDecorator(
   target: any,
   name: string,
-  descreptor: PropertyDescriptor
+  descriptor: PropertyDescriptor
 ) {}
 
 function MethodDecorator(
   target: any,
   name: string,
-  descreptor: PropertyDescriptor
+  descriptor: PropertyDescriptor
 ) {}
 
 function ParameterDecorator(
