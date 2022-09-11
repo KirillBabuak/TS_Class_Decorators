@@ -1,3 +1,9 @@
+function ClassDecorator(data: any){
+  return function (constructor: Function){
+
+  }
+}
+
 function Logger(target: any, field: string) {
   // target: здесь будет прототайп класс.
   // если поле не статик, то будет прототайм класса
@@ -6,6 +12,7 @@ function Logger(target: any, field: string) {
   console.log("field ", field);
 }
 
+@ClassDecorator('test data')
 class Product {
   @Logger
   title: string;

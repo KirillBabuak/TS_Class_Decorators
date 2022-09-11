@@ -16,6 +16,7 @@ function ParameterDecorator(
   propertyPosition: number
 ) {}
 
+
 class Product {
   private _name: string;
   private _tax: number;
