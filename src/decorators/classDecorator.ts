@@ -1,27 +1,18 @@
-function ClassDecorator(data: any){
+function ClassDecoratorExample1(data: any){
   return function (constructor: Function){
-
+    // something
   }
 }
 
-function Logger(target: any, field: string) {
-  // target: здесь будет прототайп класс.
-  // если поле не статик, то будет прототайм класса
-  // если статик, то функция конструктор ву
-  console.log("target: ", target);
-  console.log("field ", field);
+function ClassDecoratorExample2(constructor: Function){
+  // something
 }
 
-@ClassDecorator('test data')
-class Product {
-  @Logger
+@ClassDecoratorExample1('test data')
+@ClassDecoratorExample2
+class DecoratorByClass {
   title: string;
-  @Logger
   private _name: string;
-  @Logger
-  static firstName: string;
-  @Logger
-  protected secondName: string;
 
   constructor(name: string, title: string) {
     this._name = name;
@@ -29,4 +20,8 @@ class Product {
   }
 }
 
-const instance = new Product("first", "testTitle");
+const decoratorByClassInstance = new DecoratorByClass("first", "testTitle");
+
+// !!! все виды декораторов срабатывают не в рантайме, а в помент определения класса
+// если мы используем декоратор класса, то в декораторе мы можем вернуть новый инстанс класса
+// для параметра функции и параметра класса быссмысленно что-то возвращать, это будет проигнорировано

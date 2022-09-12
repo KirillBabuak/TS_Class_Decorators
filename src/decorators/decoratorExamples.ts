@@ -9,12 +9,11 @@ function ClassDecorator(){
       getSubname(){
         return this.subName
       }
-
     }
   }
 }
 
-
+// --------------------------------------
 function Binder(target: any, methodName: string, descriptor: PropertyDescriptor) {
   /*
   * Чтобы избежать конфликта, запрещено одновременно указывать значение value и функции get/set.
@@ -26,18 +25,56 @@ function Binder(target: any, methodName: string, descriptor: PropertyDescriptor)
     enumerable: descriptor.enumerable,
     get(){
       // return ()=> console.log('specific functionality') // will return this function
-      return descriptor.value.bind(this) // this belong to object, which defined and not be overwritten
+      return descriptor.value.bind(this) // this belongs to object, which defined and not be overwritten
     },
   }
 }
 
-function Required(target: any, propertyName: string){
-
+// -----------------------------------------
+interface ValidatorConfig {
+  [property: string]: {
+    [validatableProp: string]: string[]; // ['required', 'positive']
+  };
 }
 
-function PositiveNumber(target: any, propertyName: string){
+const registeredValidators: ValidatorConfig = {};
 
+function Required(target: any, propName: string) {
+  registeredValidators[target.constructor.name] = {
+    ...registeredValidators[target.constructor.name],
+    [propName]: ['required']
+  };
 }
+
+function PositiveNumber(target: any, propName: string) {
+  registeredValidators[target.constructor.name] = {
+    ...registeredValidators[target.constructor.name],
+    [propName]: ['positive']
+  };
+}
+
+function validate(obj: any) {
+  const objValidatorConfig = registeredValidators[obj.constructor.name];
+  if (!objValidatorConfig) {
+    return true;
+  }
+  let isValid = true;
+  for (const prop in objValidatorConfig) {
+    for (const validator of objValidatorConfig[prop]) {
+      switch (validator) {
+        case 'required':
+          isValid = isValid && !!obj[prop];
+          break;
+        case 'positive':
+          isValid = isValid && obj[prop] > 0;
+          break;
+      }
+    }
+  }
+  return isValid;
+}
+
+// ----------------------------------
 
 @ClassDecorator()
 class Market {
@@ -59,7 +96,7 @@ class Market {
 
 }
 
-const market = new Market();
+const market = new Market('street', 1);
 
 const button = document.querySelector('button')!;
 button.addEventListener('click', market.showName)
@@ -67,4 +104,6 @@ button.addEventListener('click', market.showName)
 // @ts-ignore
 console.log('decorator class', market.getSubname())
 
-// console.log(Object.getOwnPropertyDescriptor(market, 'showName')) // check descriptor
+console.log(validate(market))
+
+
