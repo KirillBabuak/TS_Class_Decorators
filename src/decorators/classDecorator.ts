@@ -1,11 +1,11 @@
 function ClassDecoratorExample1(data: any){
   return function (constructor: Function){
-    // something
+    // some functionality
   }
 }
 
 function ClassDecoratorExample2(constructor: Function){
-  // something
+  // some functionality
 }
 
 @ClassDecoratorExample1('test data')
@@ -22,6 +22,6 @@ class DecoratorByClass {
 
 const decoratorByClassInstance = new DecoratorByClass("first", "testTitle");
 
-// !!! все виды декораторов срабатывают не в рантайме, а в помент определения класса
-// если мы используем декоратор класса, то в декораторе мы можем вернуть новый инстанс класса
-// для параметра функции и параметра класса быссмысленно что-то возвращать, это будет проигнорировано
+// 1. all types of decorators do not work at runtime, but at the moment the class is defined
+// 2. if we use a class decorator, then in the decorator we can return a new class instance
+// 3. For function parameter and class parameter it doesn't make sense to return something, because it will be ignored

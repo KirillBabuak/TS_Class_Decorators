@@ -16,11 +16,13 @@ function ClassDecorator(){
 // --------------------------------------
 function Binder(target: any, methodName: string, descriptor: PropertyDescriptor) {
   /*
-  * Чтобы избежать конфликта, запрещено одновременно указывать значение value и функции get/set.
-  * Либо значение, либо функции для его чтения-записи, одно из двух.
-  * Также запрещено и не имеет смысла указывать writable при наличии get/set-функций.
+  * To avoid conflict, it is not allowed to specify both `value` and get/set functions at the same time.
+  * It is also forbidden and does not make sense to specify `writable` in the presence of get / set functions.
   * */
+  console.log('descriptor', descriptor)
   return {
+    // ...descriptor, see above comments
+    //value: 'test',
     configurable: descriptor.configurable,
     enumerable: descriptor.enumerable,
     get(){
@@ -32,7 +34,7 @@ function Binder(target: any, methodName: string, descriptor: PropertyDescriptor)
 
 // -----------------------------------------
 interface ValidatorConfig {
-  [property: string]: {
+  [instance: string]: {
     [validatableProp: string]: string[]; // ['required', 'positive']
   };
 }

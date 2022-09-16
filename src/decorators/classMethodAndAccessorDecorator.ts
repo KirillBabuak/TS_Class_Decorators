@@ -1,3 +1,6 @@
+// https://javascript.info/property-descriptors
+// Descriptor is an object, which describes function behavior.
+
 function AccessorDecorator(
   target: any,
   name: string,
@@ -14,7 +17,8 @@ function ParameterDecorator(
   target: any,
   name: string,
   propertyPosition: number
-) {}
+) {
+}
 
 
 class DecoratorByClassMethods {
