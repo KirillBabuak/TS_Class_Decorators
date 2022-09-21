@@ -18,6 +18,10 @@ function ParameterDecorator(
   name: string,
   propertyPosition: number
 ) {
+  /*
+ * It doesn't make sense to return something, because typescript will ignore this value
+ * Also if we try to throw error, typescript will ignore it too.
+ * */
 }
 
 

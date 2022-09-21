@@ -1,9 +1,11 @@
 function ClassFieldDecorator(target: any, fieldName: string) {
   // target:
   // - if field is static, it will function constructor, otherwise it will be class prototype
-  // - если статик, то функция конструктор
-  console.log("target: ", target);
-  console.log("fieldName ", fieldName);
+
+  /*
+  * It doesn't make sense to return something, because typescript will ignore this value
+  * Also if we try to throw error, typescript will ignore it too.
+  * */
 }
 
 class DecoratorByClassField {

@@ -1,6 +1,10 @@
-function ClassDecoratorExample1(data: any){
+function ClassDecoratorExample1(data: unknown){
   return function (constructor: Function){
-    // some functionality
+    /*
+    * Some functionality:
+    * 1. We can add logger
+    * 2. We can return another class which will extend provided class
+    * */
   }
 }
 
